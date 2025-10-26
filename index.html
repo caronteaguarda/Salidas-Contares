@@ -23,8 +23,6 @@ button.secondary{background:#64748b}
 .add-container{margin-top:12px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
 input#newItem{flex:1;padding:10px;border:1px solid #cbd5e1;border-radius:8px;min-width:150px;font-size:14px}
 pre#out{background:#0b1220;color:#f8fafc;padding:12px;border-radius:8px;margin-top:12px;overflow:auto;max-width:100%}
-.float-info{position:fixed;top:12px;right:12px;background:#10b981;color:white;padding:10px;border-radius:10px;box-shadow:0 6px 18px rgba(16,185,129,0.18);max-width:240px;z-index:999;font-size:12px}
-.float-info h4{margin:0 0 4px;font-size:12px}
 #missingPanel{max-width:100%;margin:12px auto 0;background:#fff;border-radius:10px;padding:12px;border:1px solid #e6fffa;display:none;font-size:13px}
 @media(max-width:480px){
   body{padding:12px}
@@ -33,19 +31,14 @@ pre#out{background:#0b1220;color:#f8fafc;padding:12px;border-radius:8px;margin-t
   .checkbox{width:20px;height:20px;font-size:12px}
   input#newItem{font-size:13px}
   button{font-size:13px;padding:8px 12px}
-  .float-info{font-size:11px;max-width:200px;padding:8px}
 }
 </style>
 </head>
 <body>
-<div class="float-info" id="floatInfo" aria-live="polite">
-<h4>Faltan por seleccionar:</h4>
-<div id="floatList">...</div>
-</div>
 
 <div class="card">
 <h1>Lista A (index)</h1>
-<p class="lead">Selecciona, agrega y guarda automáticamente. El cartel verde muestra en vivo los faltantes.</p>
+<p class="lead">Selecciona, agrega y guarda automáticamente.</p>
 
 <ul id="myList" class="list" role="listbox" aria-label="Lista A"></ul>
 
@@ -75,7 +68,6 @@ const goto2Btn = document.getElementById('goto2');
 const addBtn = document.getElementById('addItem');
 const newItemInput = document.getElementById('newItem');
 const missingPanel = document.getElementById('missingPanel');
-const floatList = document.getElementById('floatList');
 
 const defaultItems = [
   "Altavoz 1","Pie Altavoz 1","Cable alimentación altavoz 1","cable mesa Altavoz 1",
@@ -103,7 +95,7 @@ function renderList(){
     li.innerHTML=`<span class="checkbox ${item.selected?'checked':''}">${item.selected?'✓':''}</span><span class="label">${item.label}</span>`;
     list.appendChild(li);
   });
-  updateFloat();
+  updateMissingPanel();
 }
 
 function updateVisual(li,checked){
@@ -113,17 +105,13 @@ function updateVisual(li,checked){
   box.textContent=checked?'✓':'';
 }
 
-function saveToLocalStorage(){ localStorage.setItem(STORAGE_KEY,JSON.stringify(items)); updateFloat(); }
+function saveToLocalStorage(){ localStorage.setItem(STORAGE_KEY,JSON.stringify(items)); updateMissingPanel(); }
 
-function updateFloat(){
-  const missing=items.filter(i=>!i.selected);
-  floatList.innerHTML=missing.length?missing.map(m=>`<div>• ${m.label}</div>`).join(''):'— Todos seleccionados —';
-  if(missingPanel.style.display!=='none') renderMissingPanel();
-}
-
-function renderMissingPanel(){
-  const missing=items.filter(i=>!i.selected);
-  missingPanel.innerHTML=missing.length?'<strong>Faltan por seleccionar:</strong><ul>'+missing.map(m=>`<li>${m.label}</li>`).join('')+'</ul>':'<strong>Todos los elementos están seleccionados ✅</strong>';
+function updateMissingPanel(){
+  if(missingPanel.style.display==='block'){
+    const missing=items.filter(i=>!i.selected);
+    missingPanel.innerHTML=missing.length?'<strong>Faltan por seleccionar:</strong><ul>'+missing.map(m=>`<li>${m.label}</li>`).join('')+'</ul>':'<strong>Todos los elementos están seleccionados ✅</strong>';
+  }
 }
 
 list.addEventListener('click',e=>{
@@ -136,9 +124,9 @@ list.addEventListener('click',e=>{
   saveToLocalStorage();
 });
 
-toggleMissingBtn.addEventListener('click',()=>{ 
+toggleMissingBtn.addEventListener('click',()=>{
   missingPanel.style.display=(missingPanel.style.display==='block')?'none':'block';
-  if(missingPanel.style.display==='block') renderMissingPanel();
+  if(missingPanel.style.display==='block') updateMissingPanel();
 });
 
 clearBtn.addEventListener('click',()=>{
