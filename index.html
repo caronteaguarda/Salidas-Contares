@@ -1,215 +1,174 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Index — Lista A</title>
-  <style>
-    :root{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;margin:0}
-    body{padding:16px;background:#f5f7fb;color:#0b1220}
-    .card{max-width:720px;margin:0 auto;background:#fff;border-radius:12px;box-shadow:0 6px 18px rgba(12,20,40,0.06);padding:16px}
-    h1{font-size:20px;margin:0 0 12px}
-    p.lead{margin:0 0 18px;color:#475569;font-size:14px}
-    ul.list{list-style:none;padding:0;margin:0;display:grid;gap:8px;max-height:60vh;overflow-y:auto}
-    li.item{display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px;border:1px solid transparent;cursor:pointer;user-select:none}
-    li.item:hover{transform:translateY(-1px);box-shadow:0 4px 8px rgba(12,20,40,0.04)}
-    li.item.selected{background:linear-gradient(90deg,#eef2ff,#f8fafc);border-color:#c7d2fe}
-    .checkbox{width:22px;height:22px;border-radius:4px;border:1px solid #cbd5e1;display:inline-grid;place-items:center;font-size:14px}
-    .checkbox.checked{background:#6366f1;border-color:#6366f1;color:white}
-    .label{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px}
-    .actions{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap;justify-content:center}
-    button{padding:10px 14px;border-radius:8px;border:0;background:#0ea5a4;color:white;cursor:pointer;font-size:14px}
-    button.secondary{background:#64748b}
-    .add-container{margin-top:12px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
-    input#newItem{flex:1;padding:10px;border:1px solid #cbd5e1;border-radius:8px;min-width:150px;font-size:14px}
-    pre#out{background:#0b1220;color:#f8fafc;padding:12px;border-radius:8px;margin-top:12px;overflow:auto;max-width:100%}
-    .float-info{position:fixed;top:12px;right:12px;background:#10b981;color:white;padding:10px;border-radius:10px;box-shadow:0 6px 18px rgba(16,185,129,0.18);max-width:240px;z-index:999;font-size:12px}
-    .float-info h4{margin:0 0 4px;font-size:12px}
-    #missingPanel{max-width:100%;margin:12px auto 0;background:#fff;border-radius:10px;padding:12px;border:1px solid #e6fffa;display:none;font-size:13px}
-    @media(max-width:480px){
-      body{padding:12px}
-      .card{padding:12px}
-      .label{font-size:13px}
-      .checkbox{width:20px;height:20px;font-size:12px}
-      input#newItem{font-size:13px}
-      button{font-size:13px;padding:8px 12px}
-      .float-info{font-size:11px;max-width:200px;padding:8px}
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Index — Lista A</title>
+<style>
+:root{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;margin:0}
+body{padding:16px;background:#f5f7fb;color:#0b1220}
+.card{max-width:720px;margin:0 auto;background:#fff;border-radius:12px;box-shadow:0 6px 18px rgba(12,20,40,0.06);padding:16px}
+h1{font-size:20px;margin:0 0 12px}
+p.lead{margin:0 0 18px;color:#475569;font-size:14px}
+ul.list{list-style:none;padding:0;margin:0;display:grid;gap:8px;max-height:60vh;overflow-y:auto}
+li.item{display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px;border:1px solid transparent;cursor:pointer;user-select:none}
+li.item:hover{transform:translateY(-1px);box-shadow:0 4px 8px rgba(12,20,40,0.04)}
+li.item.selected{background:linear-gradient(90deg,#eef2ff,#f8fafc);border-color:#c7d2fe}
+.checkbox{width:22px;height:22px;border-radius:4px;border:1px solid #cbd5e1;display:inline-grid;place-items:center;font-size:14px}
+.checkbox.checked{background:#6366f1;border-color:#6366f1;color:white}
+.label{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px}
+.actions{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap;justify-content:center}
+button{padding:10px 14px;border-radius:8px;border:0;background:#0ea5a4;color:white;cursor:pointer;font-size:14px}
+button.secondary{background:#64748b}
+.add-container{margin-top:12px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+input#newItem{flex:1;padding:10px;border:1px solid #cbd5e1;border-radius:8px;min-width:150px;font-size:14px}
+pre#out{background:#0b1220;color:#f8fafc;padding:12px;border-radius:8px;margin-top:12px;overflow:auto;max-width:100%}
+.float-info{position:fixed;top:12px;right:12px;background:#10b981;color:white;padding:10px;border-radius:10px;box-shadow:0 6px 18px rgba(16,185,129,0.18);max-width:240px;z-index:999;font-size:12px}
+.float-info h4{margin:0 0 4px;font-size:12px}
+#missingPanel{max-width:100%;margin:12px auto 0;background:#fff;border-radius:10px;padding:12px;border:1px solid #e6fffa;display:none;font-size:13px}
+@media(max-width:480px){
+  body{padding:12px}
+  .card{padding:12px}
+  .label{font-size:13px}
+  .checkbox{width:20px;height:20px;font-size:12px}
+  input#newItem{font-size:13px}
+  button{font-size:13px;padding:8px 12px}
+  .float-info{font-size:11px;max-width:200px;padding:8px}
+}
+</style>
 </head>
 <body>
-  <div class="float-info" id="floatInfo" aria-live="polite">
-    <h4>Faltan por seleccionar:</h4>
-    <div id="floatList">...</div>
-  </div>
+<div class="float-info" id="floatInfo" aria-live="polite">
+<h4>Faltan por seleccionar:</h4>
+<div id="floatList">...</div>
+</div>
 
-  <div class="card">
-    <h1>Lista A (index)</h1>
-    <p class="lead">Selecciona, agrega y guarda automáticamente. El cartel verde muestra en vivo los faltantes.</p>
+<div class="card">
+<h1>Lista A (index)</h1>
+<p class="lead">Selecciona, agrega y guarda automáticamente. El cartel verde muestra en vivo los faltantes.</p>
 
-    <ul id="myList" class="list" role="listbox" aria-label="Lista A"></ul>
+<ul id="myList" class="list" role="listbox" aria-label="Lista A"></ul>
 
-    <div class="add-container">
-      <input type="text" id="newItem" placeholder="Nuevo elemento...">
-      <button id="addItem">Agregar</button>
-    </div>
+<div class="add-container">
+<input type="text" id="newItem" placeholder="Nuevo elemento...">
+<button id="addItem">Agregar</button>
+</div>
 
-    <div class="actions">
-      <button id="toggleMissing">Mostrar faltantes</button>
-      <button id="clearSelections">Borrar selecciones</button>
-      <button id="resetList" class="secondary">Resetear lista</button>
-      <button id="goto2" class="secondary">Ir a página 2</button>
-    </div>
+<div class="actions">
+<button id="toggleMissing">Mostrar faltantes</button>
+<button id="clearSelections">Borrar selecciones</button>
+<button id="resetList" class="secondary">Resetear lista</button>
+<button id="goto2" class="secondary">Ir a página 2</button>
+</div>
 
-    <div id="missingPanel" aria-live="polite"></div>
-    <pre id="out" hidden></pre>
-  </div>
+<div id="missingPanel" aria-live="polite"></div>
+<pre id="out" hidden></pre>
+</div>
 
-  <script>
-    const STORAGE_KEY = 'listaItems1';
-    const list = document.getElementById('myList');
-    const toggleMissingBtn = document.getElementById('toggleMissing');
-    const clearBtn = document.getElementById('clearSelections');
-    const resetBtn = document.getElementById('resetList');
-    const goto2Btn = document.getElementById('goto2');
-    const addBtn = document.getElementById('addItem');
-    const newItemInput = document.getElementById('newItem');
-    const missingPanel = document.getElementById('missingPanel');
-    const floatList = document.getElementById('floatList');
+<script>
+const STORAGE_KEY = 'listaItems1';
+const list = document.getElementById('myList');
+const toggleMissingBtn = document.getElementById('toggleMissing');
+const clearBtn = document.getElementById('clearSelections');
+const resetBtn = document.getElementById('resetList');
+const goto2Btn = document.getElementById('goto2');
+const addBtn = document.getElementById('addItem');
+const newItemInput = document.getElementById('newItem');
+const missingPanel = document.getElementById('missingPanel');
+const floatList = document.getElementById('floatList');
 
-    const defaultItems = [
-      { label: 'Altavoz 1', value: 'altavoz_1', selected: false },
-      { label: 'Pie Altavoz 1', value: 'pie_altavoz_1', selected: false },
-      { label: 'Cable alimentación altavoz 1', value: 'cable_alimentacion_altavoz_1', selected: false },
-      { label: 'cable mesa Altavoz 1', value: 'cable_mesa_altavoz_1', selected: false },
-      { label: 'Altavoz 2', value: 'altavoz_2', selected: false },
-      { label: 'Pie Altavoz 2', value: 'pie_altavoz_2', selected: false },
-      { label: 'Cable alimentación altavoz 2', value: 'cable_alimentacion_altavoz_2', selected: false },
-      { label: 'cable mesa Altavoz 2', value: 'cable_mesa_altavoz_2', selected: false },
-      { label: 'Altavoz 3', value: 'altavoz_3', selected: false },
-      { label: 'Pie Altavoz 3', value: 'pie_altavoz_3', selected: false },
-      { label: 'Cable alimentación altavoz 3', value: 'cable_alimentacion_altavoz_3', selected: false },
-      { label: 'cable mesa Altavoz 3', value: 'cable_mesa_altavoz_3', selected: false },
-      { label: 'Ordenador', value: 'ordenador', selected: false },
-      { label: 'cargador ordenador', value: 'cargador_ordenador', selected: false },
-      { label: 'Proyector', value: 'proyector', selected: false },
-      { label: 'Cable alimentación proyector', value: 'cable_alimentacion_proyector', selected: false },
-      { label: 'cable HDMI proyector', value: 'cable_hdmi_proyector', selected: false },
-      { label: 'Pie proyector', value: 'pie_proyector', selected: false },
-      { label: 'Pantalla proyector', value: 'pantalla_proyector', selected: false },
-      { label: 'Saxo alto', value: 'saxo_alto', selected: false },
-      { label: 'Saxo Soprano', value: 'saxo_soprano', selected: false },
-      { label: 'Micro saxo inalámbrico', value: 'micro_saxo_inalambrico', selected: false },
-      { label: 'Petaca micro', value: 'petaca_micro', selected: false },
-      { label: 'Pilas petaca', value: 'pilas_petaca', selected: false },
-      { label: 'Receptor micro inalámbrico', value: 'receptor_micro_inalambrico', selected: false },
-      { label: 'Alimentador receptor micro', value: 'alimentador_receptor_micro', selected: false },
-      { label: 'Cable receptor-mesa', value: 'cable_receptor_mesa', selected: false },
-      { label: 'Voce live', value: 'voce_live', selected: false },
-      { label: 'Alimentador voice', value: 'alimentador_voice', selected: false },
-      { label: 'Cable mesa-voice', value: 'cable_mesa_voice', selected: false },
-      { label: 'Piano', value: 'piano', selected: false },
-      { label: 'Pedal piano', value: 'pedal_piano', selected: false },
-      { label: 'Alimentador piano', value: 'alimentador_piano', selected: false },
-      { label: 'Pie piano', value: 'pie_piano', selected: false },
-      { label: 'Cable piano-mesa', value: 'cable_piano_mesa', selected: false },
-      { label: 'Minimesa', value: 'minimesa', selected: false },
-      { label: 'Alimentador minimesa', value: 'alimentador_minimesa', selected: false },
-      { label: 'Micro shure', value: 'micro_shure', selected: false },
-      { label: 'Cable micro shure', value: 'cable_micro_shure', selected: false },
-      { label: 'Pie micro', value: 'pie_micro', selected: false },
-      { label: 'Mesa de mezclas', value: 'mesa_de_mezclas', selected: false },
-      { label: 'Cables mesa', value: 'cables_mesa', selected: false },
-      { label: 'Pie de mesa', value: 'pie_de_mesa', selected: false },
-      { label: 'Cables extra', value: 'cables_extra', selected: false },
-      { label: 'Micro de diadema', value: 'micro_de_diadema', selected: false },
-      { label: 'Receptor bluetooth', value: 'receptor_bluetooth', selected: false },
-      { label: 'Alimentador receptor blue', value: 'alimentador_receptor_blue', selected: false },
-      { label: 'Cable receptor blue-mesa', value: 'cable_receptor_blue_mesa', selected: false }
-    ];
+const defaultItems = [
+  "Altavoz 1","Pie Altavoz 1","Cable alimentación altavoz 1","cable mesa Altavoz 1",
+  "Altavoz 2","Pie Altavoz 2","Cable alimentación altavoz 2","cable mesa Altavoz 2",
+  "Altavoz 3","Pie Altavoz 3","Cable alimentación altavoz 3","cable mesa Altavoz 3",
+  "Ordenador","cargador ordenador","Proyector","Cable alimentación proyector","cable HDMI proyector","Pie proyector","Pantalla proyector",
+  "Saxo alto","Saxo Soprano","Micro saxo inalámbrico","Petaca micro","Pilas petaca","Receptor micro inalámbrico","Alimentador receptor micro","Cable receptor-mesa",
+  "Voce live","Alimentador voice","Cable mesa-voice",
+  "Piano","Pedal piano","Alimentador piano","Pie piano","Cable piano-mesa",
+  "Minimesa","Alimentador minimesa","Micro shure","Cable micro shure","Pie micro",
+  "Mesa de mezclas","Cables mesa","Pie de mesa","Cables extra","Micro de diadema",
+  "Receptor bluetooth","Alimentador receptor blue","Cable receptor blue-mesa"
+].map(label=>({label,value:label.toLowerCase().replace(/\s+/g,'_'),selected:false}));
 
-    let items = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [...defaultItems];
+let items = JSON.parse(localStorage.getItem(STORAGE_KEY));
+if(!items || !items.length){ items=[...defaultItems]; localStorage.setItem(STORAGE_KEY,JSON.stringify(items)); }
 
-    function renderList() {
-      list.innerHTML = '';
-      items.forEach(item => {
-        const li = document.createElement('li');
-        li.className = 'item' + (item.selected ? ' selected' : '');
-        li.tabIndex = 0;
-        li.dataset.value = item.value;
-        li.innerHTML = `<span class="checkbox ${item.selected ? 'checked' : ''}">${item.selected ? '✓' : ''}</span><span class="label">${item.label}</span>`;
-        list.appendChild(li);
-      });
-      updateFloat();
-    }
+function renderList(){
+  list.innerHTML='';
+  items.forEach(item=>{
+    const li=document.createElement('li');
+    li.className='item'+(item.selected?' selected':'');
+    li.tabIndex=0;
+    li.dataset.value=item.value;
+    li.innerHTML=`<span class="checkbox ${item.selected?'checked':''}">${item.selected?'✓':''}</span><span class="label">${item.label}</span>`;
+    list.appendChild(li);
+  });
+  updateFloat();
+}
 
-    function updateVisual(li, checked) {
-      const box = li.querySelector('.checkbox');
-      li.classList.toggle('selected', checked);
-      box.classList.toggle('checked', checked);
-      box.textContent = checked ? '✓' : '';
-    }
+function updateVisual(li,checked){
+  const box=li.querySelector('.checkbox');
+  li.classList.toggle('selected',checked);
+  box.classList.toggle('checked',checked);
+  box.textContent=checked?'✓':'';
+}
 
-    function saveToLocalStorage() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-      updateFloat();
-    }
+function saveToLocalStorage(){ localStorage.setItem(STORAGE_KEY,JSON.stringify(items)); updateFloat(); }
 
-    function updateFloat(){
-      const missing = items.filter(i=>!i.selected);
-      floatList.innerHTML = missing.length ? missing.map(m=>`<div>• ${m.label}</div>`).join('') : '— Todos seleccionados —';
-      if(missingPanel.style.display !== 'none') renderMissingPanel();
-    }
+function updateFloat(){
+  const missing=items.filter(i=>!i.selected);
+  floatList.innerHTML=missing.length?missing.map(m=>`<div>• ${m.label}</div>`).join(''):'— Todos seleccionados —';
+  if(missingPanel.style.display!=='none') renderMissingPanel();
+}
 
-    function renderMissingPanel(){
-      const missing = items.filter(i=>!i.selected);
-      missingPanel.innerHTML = missing.length ? '<strong>Faltan por seleccionar:</strong><ul>' + missing.map(m=>`<li>${m.label} (valor: ${m.value})</li>`).join('') + '</ul>' : '<strong>Todos los elementos están seleccionados ✅</strong>';
-    }
+function renderMissingPanel(){
+  const missing=items.filter(i=>!i.selected);
+  missingPanel.innerHTML=missing.length?'<strong>Faltan por seleccionar:</strong><ul>'+missing.map(m=>`<li>${m.label}</li>`).join('')+'</ul>':'<strong>Todos los elementos están seleccionados ✅</strong>';
+}
 
-    list.addEventListener('click', e => {
-      const li = e.target.closest('li.item');
-      if (!li) return;
-      const currently = li.classList.contains('selected');
-      updateVisual(li, !currently);
-      const item = items.find(i => i.value === li.dataset.value);
-      if (item) item.selected = !currently;
-      saveToLocalStorage();
-    });
+list.addEventListener('click',e=>{
+  const li=e.target.closest('li.item');
+  if(!li) return;
+  const currently=li.classList.contains('selected');
+  updateVisual(li,!currently);
+  const item=items.find(i=>i.value===li.dataset.value);
+  if(item) item.selected=!currently;
+  saveToLocalStorage();
+});
 
-    toggleMissingBtn.addEventListener('click', ()=>{
-      missingPanel.style.display = (missingPanel.style.display === 'block') ? 'none' : 'block';
-      if(missingPanel.style.display === 'block') renderMissingPanel();
-    });
+toggleMissingBtn.addEventListener('click',()=>{ 
+  missingPanel.style.display=(missingPanel.style.display==='block')?'none':'block';
+  if(missingPanel.style.display==='block') renderMissingPanel();
+});
 
-    clearBtn.addEventListener('click', ()=>{
-      items.forEach(i => i.selected = false);
-      saveToLocalStorage();
-      renderList();
-    });
+clearBtn.addEventListener('click',()=>{
+  items.forEach(i=>i.selected=false);
+  saveToLocalStorage();
+  renderList();
+});
 
-    resetBtn.addEventListener('click', ()=>{
-      localStorage.removeItem(STORAGE_KEY);
-      items = [...defaultItems];
-      renderList();
-    });
+resetBtn.addEventListener('click',()=>{
+  localStorage.removeItem(STORAGE_KEY);
+  items=[...defaultItems];
+  renderList();
+});
 
-    goto2Btn.addEventListener('click', ()=>{ window.location.href = 'pagina2.html'; });
+goto2Btn.addEventListener('click',()=>{ window.location.href='pagina2.html'; });
 
-    addBtn.addEventListener('click', ()=>{
-      const value = newItemInput.value.trim();
-      if(!value) return;
-      const newItem = { label: value, value: value.toLowerCase().replace(/\s+/g,'_'), selected: false };
-      items.push(newItem);
-      renderList();
-      saveToLocalStorage();
-      newItemInput.value = '';
-      newItemInput.focus();
-    });
+addBtn.addEventListener('click',()=>{
+  const value=newItemInput.value.trim();
+  if(!value) return;
+  const newItem={label:value,value:value.toLowerCase().replace(/\s+/g,'_'),selected:false};
+  items.push(newItem);
+  renderList();
+  saveToLocalStorage();
+  newItemInput.value='';
+  newItemInput.focus();
+});
 
-    newItemInput.addEventListener('keydown', e=>{ if(e.key==='Enter') addBtn.click(); });
+newItemInput.addEventListener('keydown',e=>{ if(e.key==='Enter') addBtn.click(); });
 
-    renderList();
-  </
-
-
-
+renderList();
+</script>
+</body>
+</html>
