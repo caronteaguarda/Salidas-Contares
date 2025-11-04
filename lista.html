@@ -10,54 +10,72 @@ body{padding:16px;background:#f5f7fb;color:#0b1220}
 .card{max-width:720px;margin:0 auto;background:#fff;border-radius:12px;box-shadow:0 6px 18px rgba(12,20,40,0.06);padding:16px}
 h1{margin:0 0 12px;font-size:20px}
 ul.list{list-style:none;padding:0;margin:0;display:grid;gap:8px;max-height:60vh;overflow-y:auto}
-li.item{display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px;border:1px solid transparent;cursor:pointer}
+li.item{display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px;border:1px solid transparent;cursor:pointer;user-select:none}
+li.item:hover{transform:translateY(-1px);box-shadow:0 4px 8px rgba(12,20,40,0.04)}
 li.item.selected{background:linear-gradient(90deg,#ecfdf5,#f0fdfa);border-color:#99f6e4}
-.checkbox{width:22px;height:22px;border-radius:4px;border:1px solid #cbd5e1;display:inline-grid;place-items:center}
+.checkbox{width:22px;height:22px;border-radius:4px;border:1px solid #cbd5e1;display:inline-grid;place-items:center;font-size:14px}
 .checkbox.checked{background:#0ea5a4;border-color:#0ea5a4;color:white}
-.label{flex:1;overflow:hidden;text-overflow:ellipsis}
+.label{flex:1;overflow:hidden;text-overflow:ellipsis;font-size:14px}
 .actions, .add-container{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap;justify-content:center}
 button{padding:10px 14px;border-radius:8px;border:0;background:#0ea5a4;color:white;cursor:pointer;font-size:14px}
 button.secondary{background:#64748b}
-input{padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:14px;flex:1}
+input{padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:14px;flex:1;min-width:150px}
+#missingPanel{max-width:100%;margin:12px auto 0;background:#fff;border-radius:10px;padding:12px;border:1px solid #e6fffa;display:none;font-size:13px}
+@media(max-width:480px){
+  body{padding:12px}
+  .card{padding:12px}
+  .label{font-size:13px}
+  .checkbox{width:20px;height:20px;font-size:12px}
+  input{font-size:13px}
+  button{font-size:13px;padding:8px 12px}
+}
 </style>
 </head>
 <body>
 
 <div class="card">
-<h1>Lista de compra</h1>
+  <h1>Lista de compra</h1>
+  <button id="goBack" class="secondary" style="margin-bottom:12px;">⬅ Volver al menú</button>
 
-<button id="goBack" class="secondary" style="margin-bottom:12px;">⬅ Volver al menú</button>
+  <ul id="myList" class="list"></ul>
 
-<ul id="myList" class="list"></ul>
+  <div class="add-container">
+    <input type="text" id="newItem" placeholder="Nuevo producto…">
+    <button id="addItem">Agregar</button>
+  </div>
 
-<div class="add-container">
-<input type="text" id="newItem" placeholder="Nuevo producto…">
-<button id="addItem">Agregar</button>
-</div>
+  <div class="actions">
+    <button id="toggleMissing">Mostrar faltantes</button>
+    <button id="clearSelections">Borrar selecciones</button>
+    <button id="resetList" class="secondary">Resetear lista</button>
+  </div>
 
-<div class="actions">
-<button id="clearSelections">Borrar selecciones</button>
-<button id="resetList" class="secondary">Resetear lista</button>
-</div>
+  <div id="missingPanel" aria-live="polite"></div>
 </div>
 
 <script>
 const STORAGE_KEY="listaCompra";
 let items = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
-// Normaliza datos (por si vienen de versiones antiguas sin value)
+// Normaliza datos
 items = items.map(i => ({
-  label: i.label,
-  value: i.value || i.label.toLowerCase().replace(/\s+/g,'_'),
+  label: i.label || i.value || "Elemento",
+  value: i.value || (i.label || "").toLowerCase().replace(/\s+/g,'_'),
   selected: !!i.selected
 }));
 
-const save = () => localStorage.setItem(STORAGE_KEY,JSON.stringify(items));
+const save = () => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  updateMissingPanel();
+};
+
 const list=document.getElementById("myList");
 const addBtn=document.getElementById("addItem");
 const input=document.getElementById("newItem");
 const clearBtn=document.getElementById("clearSelections");
 const resetBtn=document.getElementById("resetList");
+const toggleMissingBtn=document.getElementById("toggleMissing");
+const missingPanel=document.getElementById("missingPanel");
 const goBack=document.getElementById("goBack");
 
 goBack.onclick = () => location.href="index.html";
@@ -75,8 +93,34 @@ function render(){
   };
   list.appendChild(li);
  });
+ updateMissingPanel();
 }
 
+function updateMissingPanel(){
+  if (missingPanel.style.display === "block") {
+    const missing = items.filter(i => !i.selected);
+    missingPanel.innerHTML = missing.length
+      ? "<strong>Faltan por comprar:</strong><ul>" + missing.map(m => `<li>${m.label}</li>`).join("") + "</ul>"
+      : "<strong>Todo está comprado ✅</strong>";
+  }
+}
+
+// Botón para alternar faltantes
+toggleMissingBtn.onclick = () => {
+  missingPanel.style.display = (missingPanel.style.display === "block") ? "none" : "block";
+  if (missingPanel.style.display === "block") updateMissingPanel();
+};
+
+// Borrar selecciones
+clearBtn.onclick=()=>{items.forEach(i=>i.selected=false);save();render();};
+
+// Resetear lista
+resetBtn.onclick=()=>{
+  localStorage.removeItem(STORAGE_KEY);
+  items=[];render();updateMissingPanel();
+};
+
+// Agregar nuevo ítem
 addBtn.onclick=()=>{
  if(!input.value.trim())return;
  items.push({
@@ -86,12 +130,10 @@ addBtn.onclick=()=>{
  });
  input.value=""; save(); render();
 };
-
 input.onkeydown=e=>{if(e.key==="Enter")addBtn.click();};
-clearBtn.onclick=()=>{items.forEach(i=>i.selected=false);save();render();};
-resetBtn.onclick=()=>{localStorage.removeItem(STORAGE_KEY);items=[];render();};
 
 render();
 </script>
 </body>
 </html>
+
