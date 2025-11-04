@@ -51,9 +51,9 @@ input#newItem{flex:1;padding:10px;border:1px solid #cbd5e1;border-radius:8px;min
 const STORAGE_KEY = 'listaItems2';
 
 const defaultItems = [
-  "Cubo África","Menaje cocina","Bombona gas","Agua","Colclonetas","Almohadas","Funda almohadas","Sábana bajera","Sábana superior",
-  "Manta","LuluCaravaca","Comida","Water","Infusiones","Leche","Cocina","Rollo papel","Bolsa basura","Toalla","Paño cocina",
-  "Aceite","Vinagre","Antimosquitos","Sillas","Respirador","Pastillas medicina"
+  "Cubo África","Menaje cocina","Bombona gas","Agua","Colchonetas","Almohadas","Funda almohadas","Sábana bajera","Sábana superior",
+  "Manta","LuluCaravaca","Comida","Water","Infusiones","Leche","Cocina","Rollo papel","Bolsa basura","Toalla","Cepillos dientes","Pasta de dientes","Altavoz Bluetooth","Paño cocina",
+  "Aceite","Vinagre","Proyector","Calzado","Protección solar","Antimosquitos","Sillas","Respirador","Pastillas medicina"
 ].map(label=>({label,value:label.toLowerCase().replace(/\s+/g,'_'),selected:false}));
 
 let items = JSON.parse(localStorage.getItem(STORAGE_KEY));
@@ -132,3 +132,4 @@ renderList();
 </script>
 </body>
 </html>
+
