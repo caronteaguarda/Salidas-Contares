@@ -4,61 +4,70 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Salidas Furgo</title>
+
 <style>
-*{box-sizing:border-box;}
-body{
-  margin:0;
-  padding:0;
+:root{
   font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
+}
+
+body{
   background:#f5f7fb;
   color:#0b1220;
+  padding:32px;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  margin:0;
 }
 
-/* CONTENEDOR PRINCIPAL */
+
+/* TARJETA */
 .card{
-  padding:6vw;
+  background:#fff;
+  padding:24px;
+  border-radius:14px;
+  box-shadow:0 8px 24px rgba(12,20,40,0.08);
+  max-width:440px;
+  width:100%;
 }
 
-/* TÍTULO Y TEXTO */
+/* TÍTULO */
 h1{
+  margin:0 0 16px;
   text-align:center;
-  font-size:clamp(1.5rem,5.5vw,2rem);
-  margin-bottom:3vw;
+  font-size:22px;
 }
 
 /* LISTA */
 ul.list{
   list-style:none;
   padding:0;
-  margin:0 0 4vw;
+  margin:16px 0;
   display:grid;
-  gap:3vw;
+  gap:12px;
 }
 
-/* ITEM */
 li.item{
   display:flex;
   align-items:center;
-  gap:4vw;
-  padding:4vw;
+  gap:12px;
+  padding:14px;
   border-radius:12px;
-  background:#fff;
-  box-shadow:0 4px 10px rgba(12,20,40,0.08);
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
   cursor:pointer;
 }
 
 /* CHECK */
 .checkbox{
-  width:7vw;
-  height:7vw;
-  max-width:32px;
-  max-height:32px;
+  width:26px;
+  height:26px;
   border-radius:6px;
   border:2px solid #6366f1;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:clamp(1.2rem,4vw,1.5rem);
+  font-size:16px;
 }
 
 .checkbox.checked{
@@ -69,72 +78,64 @@ li.item{
 /* TEXTO */
 .label{
   flex:1;
-  font-size:clamp(1.2rem,4.5vw,1.5rem);
+  font-size:16px;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
 }
 
-/* INPUT Y BOTONES */
-.add-container,
-.actions{
-  display:flex;
-  flex-direction:column;
-  gap:3vw;
-  margin-top:4vw;
+/* INPUT */
+input{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #d1d5db;
+  font-size:16px;
 }
 
-input#newItem{
-  padding:4vw;
-  border-radius:12px;
-  border:2px solid #cbd5e1;
-  font-size:clamp(1.2rem,4.5vw,1.5rem);
-}
-
+/* BOTONES */
 button{
-  padding:4vw;
-  border-radius:14px;
+  width:100%;
+  padding:14px;
+  border-radius:10px;
   border:0;
   background:#0ea5a4;
   color:white;
-  font-size:clamp(1.3rem,5vw,1.6rem);
-  font-weight:600;
+  font-size:16px;
   cursor:pointer;
+  margin-top:10px;
 }
 
 button.secondary{ background:#64748b; }
-button:active{ transform:scale(0.97); }
+button:hover{ opacity:0.9; }
 
 /* PANEL FALTANTES */
 #missingPanel{
-  margin-top:4vw;
-  padding:4vw;
+  margin-top:16px;
+  padding:14px;
   border-radius:12px;
-  background:#fff;
-  box-shadow:0 4px 10px rgba(12,20,40,0.08);
-  font-size:clamp(1.1rem,4vw,1.4rem);
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
   display:none;
 }
 </style>
 </head>
+
 <body>
 
 <div class="card">
   <h1>Lista Furgo</h1>
-  <button id="goBack" class="secondary">⬅ Volver al menú</button>
+
+  <button class="secondary" onclick="location.href='index.html'">⬅ Volver al menú</button>
 
   <ul id="myList" class="list"></ul>
 
-  <div class="add-container">
-    <input type="text" id="newItem" placeholder="Nuevo elemento...">
-    <button id="addItem">Agregar</button>
-  </div>
+  <input type="text" id="newItem" placeholder="Nuevo elemento…">
+  <button id="addItem">Agregar</button>
 
-  <div class="actions">
-    <button id="toggleMissing">Mostrar faltantes</button>
-    <button id="clearSelections">Borrar selecciones</button>
-    <button id="resetList" class="secondary">Resetear lista</button>
-  </div>
+  <button id="toggleMissing">Mostrar faltantes</button>
+  <button id="clearSelections">Borrar selecciones</button>
+  <button id="resetList" class="secondary">Resetear lista</button>
 
   <div id="missingPanel"></div>
 </div>
@@ -143,95 +144,83 @@ button:active{ transform:scale(0.97); }
 const STORAGE_KEY = 'listaItems2';
 
 const defaultItems = [
-  "Cubo África","Menaje cocina","Bombona gas","Agua","Colchonetas","Almohadas","Funda almohadas","Sábana bajera","Sábana superior",
-  "Manta","LuluCaravaca","Comida","Water","Infusiones","Leche","Cocina","Rollo papel","Bolsa basura","Toalla","Cepillos dientes","Pasta de dientes","Altavoz Bluetooth","Paño cocina",
-  "Aceite","Vinagre","Proyector","Calzado","Protección solar","Antimosquitos","Sillas","Respirador","Pastillas medicina"
-].map(label=>({label,value:label.toLowerCase().replace(/\s+/g,'_'),selected:false}));
+  "Cubo África","Menaje cocina","Bombona gas","Agua","Colchonetas","Almohadas","Funda almohadas",
+  "Sábana bajera","Sábana superior","Manta","LuluCaravaca","Comida","Water","Infusiones","Leche",
+  "Cocina","Rollo papel","Bolsa basura","Toalla","Cepillos dientes","Pasta de dientes",
+  "Altavoz Bluetooth","Paño cocina","Aceite","Vinagre","Proyector","Calzado",
+  "Protección solar","Antimosquitos","Sillas","Respirador","Pastillas medicina"
+].map(label => ({ label, selected:false }));
 
-let items = JSON.parse(localStorage.getItem(STORAGE_KEY));
-if(!Array.isArray(items) || items.length === 0){
-  items = [...defaultItems];
-} else {
-  items = items.map(i => ({
-    label: i.label || String(i),
-    value: i.value || String(i).toLowerCase().replace(/\s+/g,'_'),
-    selected: !!i.selected
-  }));
+let items = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [...defaultItems];
+
+function save(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  updateMissingPanel();
 }
-localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
 
-const list = document.getElementById('myList');
-const toggleMissingBtn = document.getElementById('toggleMissing');
-const clearBtn = document.getElementById('clearSelections');
-const resetBtn = document.getElementById('resetList');
-const goBackBtn = document.getElementById('goBack');
-const addBtn = document.getElementById('addItem');
-const newItemInput = document.getElementById('newItem');
-const missingPanel = document.getElementById('missingPanel');
+const list = document.getElementById("myList");
+const input = document.getElementById("newItem");
+const missingPanel = document.getElementById("missingPanel");
 
-goBackBtn.onclick=()=>location.href='index.html';
-
-function renderList(){
-  list.innerHTML='';
+function render(){
+  list.innerHTML="";
   items.forEach(item=>{
-    const li=document.createElement('li');
-    li.className='item'+(item.selected?' selected':'');
-    li.dataset.value=item.value;
-    li.innerHTML=`<span class="checkbox ${item.selected?'checked':''}">${item.selected?'✓':''}</span><span class="label">${item.label}</span>`;
-    li.addEventListener('click',()=>{
+    const li=document.createElement("li");
+    li.className="item";
+    li.innerHTML=`
+      <span class="checkbox ${item.selected?'checked':''}">
+        ${item.selected?'✓':''}
+      </span>
+      <span class="label">${item.label}</span>
+    `;
+    li.onclick=()=>{
       item.selected=!item.selected;
-      save();
-      renderList();
-    });
+      save(); render();
+    };
     list.appendChild(li);
   });
   updateMissingPanel();
 }
 
-function save(){ 
-  localStorage.setItem(STORAGE_KEY,JSON.stringify(items));
-  updateMissingPanel();
-}
-
-toggleMissingBtn.onclick=()=>{
-  missingPanel.style.display = missingPanel.style.display==='block' ? 'none' : 'block';
-  updateMissingPanel();
-};
-
 function updateMissingPanel(){
-  if(missingPanel.style.display==='block'){
+  if(missingPanel.style.display==="block"){
     const missing=items.filter(i=>!i.selected);
     missingPanel.innerHTML = missing.length
-      ? '<strong>Faltan:</strong><ul>'+missing.map(m=>`<li>${m.label}</li>`).join('')+'</ul>'
-      : '<strong>Todo listo ✅</strong>';
+      ? "<strong>Faltan:</strong><ul>"+missing.map(m=>`<li>${m.label}</li>`).join("")+"</ul>"
+      : "<strong>Todo listo ✅</strong>";
   }
 }
 
-clearBtn.onclick=()=>{ items.forEach(i=>i.selected=false); save(); renderList(); }
-resetBtn.onclick=()=>{ items=[...defaultItems]; save(); renderList(); }
-
-addBtn.onclick=()=>{ 
-  const value=newItemInput.value.trim();
-  if(!value) return;
-  items.push({label:value,value:value.toLowerCase().replace(/\s+/g,'_'),selected:false});
-  save(); renderList();
-  newItemInput.value='';
+document.getElementById("toggleMissing").onclick=()=>{
+  missingPanel.style.display =
+    missingPanel.style.display==="block" ? "none" : "block";
+  updateMissingPanel();
 };
 
-newItemInput.onkeydown=e=>{ if(e.key==='Enter') addBtn.click(); };
+document.getElementById("clearSelections").onclick=()=>{
+  items.forEach(i=>i.selected=false);
+  save(); render();
+};
 
-renderList();
+document.getElementById("resetList").onclick=()=>{
+  items=[...defaultItems];
+  save(); render();
+};
 
-// Service Worker
-if("serviceWorker"in navigator){
-  navigator.serviceWorker.register("service-worker.js")
-    .then(()=>console.log("Service Worker registrado"))
-    .catch(err=>console.log("Error al registrar Service Worker:",err));
-}
+document.getElementById("addItem").onclick=()=>{
+  if(!input.value.trim()) return;
+  items.push({ label:input.value.trim(), selected:false });
+  input.value="";
+  save(); render();
+};
+
+input.onkeydown=e=>{ if(e.key==="Enter") document.getElementById("addItem").click(); };
+
+render();
 </script>
+
 </body>
 </html>
-
 
 
 
