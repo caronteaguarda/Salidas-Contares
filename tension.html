@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tensión</title>
+<link rel="manifest" href="manifest.json">
+
+<style>
+:root{
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
+}
+
+body{
+  background:#f5f7fb;
+  padding:32px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.card{
+  background:#fff;
+  padding:24px;
+  border-radius:14px;
+  box-shadow:0 8px 24px rgba(12,20,40,0.08);
+  max-width:360px;
+  width:100%;
+}
+
+h1{
+  margin-top:0;
+  text-align:center;
+}
+
+label{
+  display:block;
+  margin-top:16px;
+  font-weight:600;
+}
+
+select, input{
+  width:100%;
+  padding:12px;
+  margin-top:6px;
+  border-radius:8px;
+  border:1px solid #d1d5db;
+  font-size:16px;
+}
+
+button{
+  margin-top:20px;
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:10px;
+  background:#0ea5a4;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+}
+
+button:hover{
+  opacity:0.9;
+}
+
+.back{
+  margin-top:10px;
+  background:#64748b;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1>Tensión</h1>
+
+  <label for="zona">Zona</label>
+  <select id="zona">
+    <option value="Chiclana">Chiclana</option>
+    <option value="La Isla">La Isla</option>
+    <option value="Alcalá">Alcalá</option>
+    <option value="San Pedro">San Pedro</option>
+  </select>
+
+  <label for="enalapril">Enalapril</label>
+  <input type="text" id="enalapril">
+
+  <label for="aas">AAS</label>
+  <input type="text" id="aas">
+
+  <button onclick="guardarDatos()">Guardar</button>
+  <button class="back" onclick="location.href='index.html'">Volver al menú</button>
+</div>
+
+<script>
+// Base de datos inicial
+const datosPorDefecto = {
+  "Chiclana": { enalapril: "", aas: "" },
+  "La Isla": { enalapril: "", aas: "" },
+  "Alcalá": { enalapril: "", aas: "" },
+  "San Pedro": { enalapril: "", aas: "" }
+};
+
+// Cargar datos desde localStorage o crearla
+function cargarBaseDatos(){
+  if(!localStorage.getItem("tensionDB")){
+    localStorage.setItem("tensionDB", JSON.stringify(datosPorDefecto));
+  }
+  return JSON.parse(localStorage.getItem("tensionDB"));
+}
+
+let db = cargarBaseDatos();
+
+const zonaSelect = document.getElementById("zona");
+const enalaprilInput = document.getElementById("enalapril");
+const aasInput = document.getElementById("aas");
+
+// Mostrar datos al cambiar de zona
+function mostrarDatos(){
+  const zona = zonaSelect.value;
+  enalaprilInput.value = db[zona].enalapril;
+  aasInput.value = db[zona].aas;
+}
+
+// Guardar datos modificados
+function guardarDatos(){
+  const zona = zonaSelect.value;
+  db[zona].enalapril = enalaprilInput.value;
+  db[zona].aas = aasInput.value;
+
+  localStorage.setItem("tensionDB", JSON.stringify(db));
+  alert("Datos guardados correctamente");
+}
+
+zonaSelect.addEventListener("change", mostrarDatos);
+
+// Mostrar datos iniciales
+mostrarDatos();
+// PASO 4: Registrar Service Worker
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js")
+    .then(() => console.log("Service Worker registrado"))
+    .catch(err => console.log("Error al registrar Service Worker:", err));
+}
+</script>
+
+</body>
+</html>
