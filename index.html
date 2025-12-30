@@ -4,8 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Menú Principal</title>
+
 <style>
-:root{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;margin:0}
+:root{
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
+  margin:0;
+}
+
 body{
   background:#f5f7fb;
   color:#0b1220;
@@ -15,6 +20,7 @@ body{
   align-items:center;
   height:100vh;
 }
+
 .menu{
   background:#fff;
   padding:24px;
@@ -24,7 +30,12 @@ body{
   width:100%;
   text-align:center;
 }
-h1{margin:0 0 18px;font-size:22px}
+
+h1{
+  margin:0 0 18px;
+  font-size:22px;
+}
+
 button{
   width:100%;
   padding:14px;
@@ -36,19 +47,38 @@ button{
   cursor:pointer;
   margin-top:10px;
 }
+
 button.secondary{ background:#6366f1; }
 button.third{ background:#64748b; }
-button:hover{opacity:0.9}
+button.fourth{ background:#f59e0b; }
+
+button:hover{ opacity:0.9; }
 </style>
 </head>
+
 <body>
 
 <div class="menu">
   <h1>Menú Principal</h1>
-  <button onclick="location.href='lista.html'">Lista compra</button>
-  <button class="secondary" onclick="location.href='pagina1.html'">Contares</button>
-  <button class="third" onclick="location.href='salidas.html'">Salidas</button>
+
+  <button onclick="location.href='lista.html'">
+    Lista compra
+  </button>
+
+  <button class="secondary" onclick="location.href='pagina1.html'">
+    Contares
+  </button>
+
+  <button class="third" onclick="location.href='salidas.html'">
+    Salidas
+  </button>
+
+  <button class="fourth" onclick="location.href='tension.html'">
+    Tensión
+  </button>
 </div>
 
 </body>
 </html>
+
+
