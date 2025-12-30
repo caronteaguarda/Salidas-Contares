@@ -3,13 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Menú Principal</title>
+<title>Organización</title>
 <link rel="manifest" href="manifest.json">
 
 <style>
-  html {
-  font-size: 16px;
-  -webkit-text-size-adjust: 100%;
+/* 🔒 FIX DEFINITIVO PARA BOTONES PEQUEÑOS EN PWA */
+html{
+  font-size:16px;
+  -webkit-text-size-adjust:100%;
 }
 
 :root{
@@ -67,32 +68,20 @@ button:hover{ opacity:0.9; }
 <div class="menu">
   <h1>Menú Principal</h1>
 
-  <button onclick="location.href='lista.html'">
-    Lista compra
-  </button>
-
-  <button class="secondary" onclick="location.href='pagina1.html'">
-    Contares
-  </button>
-
-  <button class="third" onclick="location.href='salidas.html'">
-    Salidas
-  </button>
-
-  <button class="fourth" onclick="location.href='tension.html'">
-    Tensión
-  </button>
+  <button onclick="location.href='lista.html'">Lista compra</button>
+  <button class="secondary" onclick="location.href='pagina1.html'">Contares</button>
+  <button class="third" onclick="location.href='salidas.html'">Salidas</button>
+  <button class="fourth" onclick="location.href='tension.html'">Tensión</button>
 </div>
+
 <script>
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("service-worker.js")
-      .then(() => console.log("Service Worker registrado"))
-      .catch(err => console.log("Error al registrar Service Worker:", err));
-  }
-  </script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js");
+}
+</script>
+
 </body>
 </html>
-
 
 
 
