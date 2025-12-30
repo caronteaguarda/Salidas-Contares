@@ -1,7 +1,7 @@
 {
   "name": "Organización",
   "short_name": "Organización",
-  "start_url": "index.html",
+"start_url": "splash.html",
   "display": "standalone",
   "background_color": "#f5f7fb",
   "theme_color": "#0ea5a4",
@@ -18,3 +18,4 @@
     }
   ]
 }
+
