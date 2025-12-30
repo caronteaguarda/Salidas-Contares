@@ -4,55 +4,139 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Salidas Furgo</title>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0ea5a4">
-
 <style>
-  html {
-  font-size: 16px;
-  -webkit-text-size-adjust: 100%;
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  padding:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
+  background:#f5f7fb;
+  color:#0b1220;
 }
 
-:root{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;margin:0}
-body{padding:16px;background:#f5f7fb;color:#0b1220}
-.card{max-width:720px;margin:0 auto;background:#fff;border-radius:12px;box-shadow:0 6px 18px rgba(12,20,40,0.06);padding:16px}
-h1{font-size:20px;margin:0 0 12px}
-p.lead{margin:0 0 18px;color:#475569;font-size:14px}
-ul.list{list-style:none;padding:0;margin:0;display:grid;gap:8px;max-height:60vh;overflow-y:auto}
-li.item{display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px;border:1px solid transparent;cursor:pointer;user-select:none}
-li.item:hover{transform:translateY(-1px);box-shadow:0 4px 8px rgba(12,20,40,0.04)}
-li.item.selected{background:linear-gradient(90deg,#eef2ff,#f8fafc);border-color:#c7d2fe}
-.checkbox{width:22px;height:22px;border-radius:4px;border:1px solid #cbd5e1;display:inline-grid;place-items:center;font-size:14px}
-.checkbox.checked{background:#6366f1;border-color:#6366f1;color:white}
-.label{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px}
-.actions{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap;justify-content:center}
-button{padding:10px 14px;border-radius:8px;border:0;background:#0ea5a4;color:white;cursor:pointer;font-size:14px}
-button.secondary{background:#64748b}
-.add-container{margin-top:12px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
-input#newItem{flex:1;padding:10px;border:1px solid #cbd5e1;border-radius:8px;min-width:150px;font-size:14px}
-#missingPanel{max-width:100%;margin:12px auto 0;background:#fff;border-radius:10px;padding:12px;border:1px solid #e6fffa;display:none;font-size:13px}
+/* CONTENEDOR PRINCIPAL */
+.card{
+  padding:6vw;
+}
+
+/* TÍTULO Y TEXTO */
+h1{
+  text-align:center;
+  font-size:clamp(1.5rem,5.5vw,2rem);
+  margin-bottom:3vw;
+}
+
+/* LISTA */
+ul.list{
+  list-style:none;
+  padding:0;
+  margin:0 0 4vw;
+  display:grid;
+  gap:3vw;
+}
+
+/* ITEM */
+li.item{
+  display:flex;
+  align-items:center;
+  gap:4vw;
+  padding:4vw;
+  border-radius:12px;
+  background:#fff;
+  box-shadow:0 4px 10px rgba(12,20,40,0.08);
+  cursor:pointer;
+}
+
+/* CHECK */
+.checkbox{
+  width:7vw;
+  height:7vw;
+  max-width:32px;
+  max-height:32px;
+  border-radius:6px;
+  border:2px solid #6366f1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:clamp(1.2rem,4vw,1.5rem);
+}
+
+.checkbox.checked{
+  background:#6366f1;
+  color:#fff;
+}
+
+/* TEXTO */
+.label{
+  flex:1;
+  font-size:clamp(1.2rem,4.5vw,1.5rem);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* INPUT Y BOTONES */
+.add-container,
+.actions{
+  display:flex;
+  flex-direction:column;
+  gap:3vw;
+  margin-top:4vw;
+}
+
+input#newItem{
+  padding:4vw;
+  border-radius:12px;
+  border:2px solid #cbd5e1;
+  font-size:clamp(1.2rem,4.5vw,1.5rem);
+}
+
+button{
+  padding:4vw;
+  border-radius:14px;
+  border:0;
+  background:#0ea5a4;
+  color:white;
+  font-size:clamp(1.3rem,5vw,1.6rem);
+  font-weight:600;
+  cursor:pointer;
+}
+
+button.secondary{ background:#64748b; }
+button:active{ transform:scale(0.97); }
+
+/* PANEL FALTANTES */
+#missingPanel{
+  margin-top:4vw;
+  padding:4vw;
+  border-radius:12px;
+  background:#fff;
+  box-shadow:0 4px 10px rgba(12,20,40,0.08);
+  font-size:clamp(1.1rem,4vw,1.4rem);
+  display:none;
+}
 </style>
 </head>
 <body>
 
 <div class="card">
-<h1>Lista Furgo</h1>
-<button id="goBack" class="secondary" style="margin-bottom:12px;">⬅ Volver al menú</button>
+  <h1>Lista Furgo</h1>
+  <button id="goBack" class="secondary">⬅ Volver al menú</button>
 
-<ul id="myList" class="list"></ul>
+  <ul id="myList" class="list"></ul>
 
-<div class="add-container">
-<input type="text" id="newItem" placeholder="Nuevo elemento...">
-<button id="addItem">Agregar</button>
-</div>
+  <div class="add-container">
+    <input type="text" id="newItem" placeholder="Nuevo elemento...">
+    <button id="addItem">Agregar</button>
+  </div>
 
-<div class="actions">
-<button id="toggleMissing">Mostrar faltantes</button>
-<button id="clearSelections">Borrar selecciones</button>
-<button id="resetList" class="secondary">Resetear lista</button>
-</div>
+  <div class="actions">
+    <button id="toggleMissing">Mostrar faltantes</button>
+    <button id="clearSelections">Borrar selecciones</button>
+    <button id="resetList" class="secondary">Resetear lista</button>
+  </div>
 
-<div id="missingPanel"></div>
+  <div id="missingPanel"></div>
 </div>
 
 <script>
@@ -94,20 +178,20 @@ function renderList(){
     li.className='item'+(item.selected?' selected':'');
     li.dataset.value=item.value;
     li.innerHTML=`<span class="checkbox ${item.selected?'checked':''}">${item.selected?'✓':''}</span><span class="label">${item.label}</span>`;
+    li.addEventListener('click',()=>{
+      item.selected=!item.selected;
+      save();
+      renderList();
+    });
     list.appendChild(li);
   });
   updateMissingPanel();
 }
 
-function save(){ localStorage.setItem(STORAGE_KEY,JSON.stringify(items)); updateMissingPanel(); }
-
-list.addEventListener('click',e=>{
-  const li=e.target.closest('li.item');
-  if(!li) return;
-  const item=items.find(i=>i.value===li.dataset.value);
-  item.selected=!item.selected;
-  save(); renderList();
-});
+function save(){ 
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(items));
+  updateMissingPanel();
+}
 
 toggleMissingBtn.onclick=()=>{
   missingPanel.style.display = missingPanel.style.display==='block' ? 'none' : 'block';
@@ -126,7 +210,7 @@ function updateMissingPanel(){
 clearBtn.onclick=()=>{ items.forEach(i=>i.selected=false); save(); renderList(); }
 resetBtn.onclick=()=>{ items=[...defaultItems]; save(); renderList(); }
 
-addBtn.onclick=()=>{
+addBtn.onclick=()=>{ 
   const value=newItemInput.value.trim();
   if(!value) return;
   items.push({label:value,value:value.toLowerCase().replace(/\s+/g,'_'),selected:false});
@@ -137,16 +221,16 @@ addBtn.onclick=()=>{
 newItemInput.onkeydown=e=>{ if(e.key==='Enter') addBtn.click(); };
 
 renderList();
-  // PASO 4: Registrar Service Worker
-if ("serviceWorker" in navigator) {
+
+// Service Worker
+if("serviceWorker"in navigator){
   navigator.serviceWorker.register("service-worker.js")
-    .then(() => console.log("Service Worker registrado"))
-    .catch(err => console.log("Error al registrar Service Worker:", err));
+    .then(()=>console.log("Service Worker registrado"))
+    .catch(err=>console.log("Error al registrar Service Worker:",err));
 }
 </script>
 </body>
 </html>
-
 
 
 
