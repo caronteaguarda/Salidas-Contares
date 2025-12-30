@@ -4,69 +4,76 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Contares Lista</title>
+
 <style>
-*{box-sizing:border-box;}
+:root{
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
+}
 
 body{
-  margin:0;
-  padding:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
   background:#f5f7fb;
   color:#0b1220;
+  padding:32px;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  margin:0;
 }
 
-/* CONTENEDOR PRINCIPAL */
+/* TARJETA */
 .card{
-  padding:6vw;
+  background:#fff;
+  padding:24px;
+  border-radius:14px;
+  box-shadow:0 8px 24px rgba(12,20,40,0.08);
+  max-width:440px;
+  width:100%;
 }
 
-/* TÍTULO Y TEXTO */
+/* TÍTULO */
 h1{
+  margin:0 0 8px;
   text-align:center;
-  font-size:clamp(1.5rem, 5.5vw, 2rem);
-  margin-bottom:3vw;
+  font-size:22px;
 }
 
 p.lead{
   text-align:center;
-  font-size:clamp(1rem,4vw,1.3rem);
-  margin-bottom:4vw;
+  margin:0 0 16px;
   color:#475569;
+  font-size:15px;
 }
 
 /* LISTA */
 ul.list{
   list-style:none;
   padding:0;
-  margin:0 0 4vw;
+  margin:16px 0;
   display:grid;
-  gap:3vw;
+  gap:12px;
 }
 
-/* ITEM */
 li.item{
   display:flex;
   align-items:center;
-  gap:4vw;
-  padding:4vw;
+  gap:12px;
+  padding:14px;
   border-radius:12px;
-  background:#fff;
-  box-shadow:0 4px 10px rgba(12,20,40,0.08);
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
   cursor:pointer;
 }
 
 /* CHECK */
 .checkbox{
-  width:7vw;
-  height:7vw;
-  max-width:32px;
-  max-height:32px;
+  width:26px;
+  height:26px;
   border-radius:6px;
   border:2px solid #6366f1;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:clamp(1.2rem, 4vw, 1.5rem);
+  font-size:16px;
 }
 
 .checkbox.checked{
@@ -77,178 +84,157 @@ li.item{
 /* TEXTO */
 .label{
   flex:1;
-  font-size:clamp(1.2rem, 4.5vw, 1.5rem);
+  font-size:16px;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
 }
 
-/* INPUT Y BOTONES */
-.add-container,
-.actions{
-  display:flex;
-  flex-direction:column;
-  gap:3vw;
-  margin-top:4vw;
+/* INPUT */
+input{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #d1d5db;
+  font-size:16px;
 }
 
-input#newItem{
-  padding:4vw;
-  border-radius:12px;
-  border:2px solid #cbd5e1;
-  font-size:clamp(1.2rem,4.5vw,1.5rem);
-}
-
+/* BOTONES */
 button{
-  padding:4vw;
-  border-radius:14px;
+  width:100%;
+  padding:14px;
+  border-radius:10px;
   border:0;
   background:#0ea5a4;
   color:white;
-  font-size:clamp(1.3rem,5vw,1.6rem);
-  font-weight:600;
+  font-size:16px;
   cursor:pointer;
+  margin-top:10px;
 }
 
 button.secondary{ background:#64748b; }
-
-button:active{ transform:scale(0.97); }
+button:hover{ opacity:0.9; }
 
 /* PANEL FALTANTES */
 #missingPanel{
-  margin-top:4vw;
-  padding:4vw;
+  margin-top:16px;
+  padding:14px;
   border-radius:12px;
-  background:#fff;
-  box-shadow:0 4px 10px rgba(12,20,40,0.08);
-  font-size:clamp(1.1rem,4vw,1.4rem);
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
   display:none;
 }
 </style>
 </head>
+
 <body>
 
 <div class="card">
   <h1>Contares Lista</h1>
   <p class="lead">Selecciona, agrega y guarda automáticamente.</p>
 
-  <button id="goBack" class="secondary">⬅ Volver al menú</button>
+  <button class="secondary" onclick="location.href='index.html'">⬅ Volver al menú</button>
 
-  <ul id="myList" class="list" role="listbox" aria-label="Lista A"></ul>
+  <ul id="myList" class="list"></ul>
 
-  <div class="add-container">
-    <input type="text" id="newItem" placeholder="Nuevo elemento...">
-    <button id="addItem">Agregar</button>
-  </div>
+  <input type="text" id="newItem" placeholder="Nuevo elemento…">
+  <button id="addItem">Agregar</button>
 
-  <div class="actions">
-    <button id="toggleMissing">Mostrar faltantes</button>
-    <button id="clearSelections">Borrar selecciones</button>
-    <button id="resetList" class="secondary">Resetear lista</button>
-  </div>
+  <button id="toggleMissing">Mostrar faltantes</button>
+  <button id="clearSelections">Borrar selecciones</button>
+  <button id="resetList" class="secondary">Resetear lista</button>
 
-  <div id="missingPanel" aria-live="polite"></div>
+  <div id="missingPanel"></div>
 </div>
 
 <script>
 const STORAGE_KEY = 'listaItems1';
-const list = document.getElementById('myList');
-const toggleMissingBtn = document.getElementById('toggleMissing');
-const clearBtn = document.getElementById('clearSelections');
-const resetBtn = document.getElementById('resetList');
-const addBtn = document.getElementById('addItem');
-const newItemInput = document.getElementById('newItem');
-const missingPanel = document.getElementById('missingPanel');
-const goBackBtn = document.getElementById('goBack');
-
-goBackBtn.addEventListener('click', () => { window.location.href = 'index.html'; });
 
 const defaultItems = [
   "Altavoz 1","Pie Altavoz 1","Cable alimentación altavoz 1","Cable mesa Altavoz 1",
   "Altavoz 2","Pie Altavoz 2","Cable alimentación altavoz 2","Cable mesa Altavoz 2",
   "Altavoz 3","Pie Altavoz 3","Cable alimentación altavoz 3","Cable mesa Altavoz 3",
-  "Ordenador","cargador ordenador","Ratón ordenador","Proyector","Cable alimentación proyector","cable HDMI proyector","Pie proyector","Pantalla proyector",
-  "Saxo alto","Saxo Soprano","Micro saxo inalámbrico","Petaca micro","Pilas petaca","Receptor micro inalámbrico","Alimentador receptor micro","Cable receptor-mesa",
-  "Voce live","Alimentador voice","Cable mesa-voice",
+  "Ordenador","Cargador ordenador","Ratón ordenador","Proyector","Cable alimentación proyector","Cable HDMI proyector","Pie proyector","Pantalla proyector",
+  "Saxo alto","Saxo soprano","Micro saxo inalámbrico","Petaca micro","Pilas petaca","Receptor micro inalámbrico","Alimentador receptor micro","Cable receptor-mesa",
+  "Voice live","Alimentador voice","Cable mesa-voice",
   "Piano","Pedal piano","Alimentador piano","Pie piano","Cable piano-mesa",
-  "Minimesa","Alimentador minimesa","Micro shure","Cable micro shure","Pie micro",
+  "Minimesa","Alimentador minimesa","Micro Shure","Cable micro Shure","Pie micro",
   "Mesa de mezclas","Cables mesa","Pie de mesa","Cables extra","Micro de diadema",
-  "Receptor bluetooth","Alimentador receptor blue","Cable receptor blue-mesa"
-].map(label => ({ label, value: label.toLowerCase().replace(/\s+/g,'_'), selected:false }));
+  "Receptor bluetooth","Alimentador receptor bluetooth","Cable receptor bluetooth-mesa"
+].map(label => ({ label, selected:false }));
 
 let items = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [...defaultItems];
 
-function saveToLocalStorage() {
+const list = document.getElementById("myList");
+const input = document.getElementById("newItem");
+const missingPanel = document.getElementById("missingPanel");
+
+function save(){
   localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
   updateMissingPanel();
 }
 
-function renderList() {
-  list.innerHTML = '';
-  items.forEach(item => {
-    const li = document.createElement('li');
-    li.className = 'item';
-    li.tabIndex = 0;
-    li.dataset.value = item.value;
-    li.innerHTML = `<span class="checkbox ${item.selected?'checked':''}">${item.selected?'✓':''}</span><span class="label">${item.label}</span>`;
-    li.addEventListener('click', () => {
-      item.selected = !item.selected;
-      saveToLocalStorage();
-      renderList();
-    });
+function render(){
+  list.innerHTML="";
+  items.forEach(item=>{
+    const li=document.createElement("li");
+    li.className="item";
+    li.innerHTML=`
+      <span class="checkbox ${item.selected?'checked':''}">
+        ${item.selected?'✓':''}
+      </span>
+      <span class="label">${item.label}</span>
+    `;
+    li.onclick=()=>{
+      item.selected=!item.selected;
+      save(); render();
+    };
     list.appendChild(li);
   });
   updateMissingPanel();
 }
 
-function updateMissingPanel() {
-  if(missingPanel.style.display==='block'){
-    const missing = items.filter(i=>!i.selected);
+function updateMissingPanel(){
+  if(missingPanel.style.display==="block"){
+    const missing=items.filter(i=>!i.selected);
     missingPanel.innerHTML = missing.length
-      ? '<strong>Faltan por seleccionar:</strong><ul>'+missing.map(m=>`<li>${m.label}</li>`).join('')+'</ul>'
-      : '<strong>Todos los elementos están seleccionados ✅</strong>';
+      ? "<strong>Faltan por seleccionar:</strong><ul>"+missing.map(m=>`<li>${m.label}</li>`).join("")+"</ul>"
+      : "<strong>Todos los elementos están seleccionados ✅</strong>";
   }
 }
 
-toggleMissingBtn.addEventListener('click',()=>{
-  missingPanel.style.display=(missingPanel.style.display==='block')?'none':'block';
-  if(missingPanel.style.display==='block') updateMissingPanel();
-});
+document.getElementById("toggleMissing").onclick=()=>{
+  missingPanel.style.display =
+    missingPanel.style.display==="block" ? "none" : "block";
+  updateMissingPanel();
+};
 
-clearBtn.addEventListener('click',()=>{
+document.getElementById("clearSelections").onclick=()=>{
   items.forEach(i=>i.selected=false);
-  saveToLocalStorage();
-  renderList();
-});
+  save(); render();
+};
 
-resetBtn.addEventListener('click',()=>{
+document.getElementById("resetList").onclick=()=>{
   items=[...defaultItems];
-  saveToLocalStorage();
-  renderList();
-});
+  save(); render();
+};
 
-addBtn.addEventListener('click',()=>{
-  const value=newItemInput.value.trim();
-  if(!value) return;
-  items.push({label:value,value:value.toLowerCase().replace(/\s+/g,'_'),selected:false});
-  renderList();
-  saveToLocalStorage();
-  newItemInput.value='';
-  newItemInput.focus();
-});
+document.getElementById("addItem").onclick=()=>{
+  if(!input.value.trim()) return;
+  items.push({ label:input.value.trim(), selected:false });
+  input.value="";
+  save(); render();
+};
 
-newItemInput.addEventListener('keydown', e=>{if(e.key==='Enter') addBtn.click();});
+input.onkeydown=e=>{ if(e.key==="Enter") document.getElementById("addItem").click(); };
 
-renderList();
-
-// Service Worker
-if("serviceWorker"in navigator){
-  navigator.serviceWorker.register("service-worker.js").then(()=>console.log("Service Worker registrado"))
-  .catch(err=>console.log("Error al registrar Service Worker:",err));
-}
+render();
 </script>
+
 </body>
 </html>
+
+
 
 
 
