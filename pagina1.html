@@ -4,67 +4,150 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Contares Lista</title>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0ea5a4">
-
 <style>
-  html {
-  font-size: 16px;
-  -webkit-text-size-adjust: 100%;
+*{box-sizing:border-box;}
+
+body{
+  margin:0;
+  padding:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
+  background:#f5f7fb;
+  color:#0b1220;
 }
 
-:root{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;margin:0}
-body{padding:16px;background:#f5f7fb;color:#0b1220}
-.card{max-width:720px;margin:0 auto;background:#fff;border-radius:12px;box-shadow:0 6px 18px rgba(12,20,40,0.06);padding:16px}
-h1{font-size:20px;margin:0 0 12px}
-p.lead{margin:0 0 18px;color:#475569;font-size:14px}
-ul.list{list-style:none;padding:0;margin:0;display:grid;gap:8px;max-height:60vh;overflow-y:auto}
-li.item{display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px;border:1px solid transparent;cursor:pointer;user-select:none}
-li.item:hover{transform:translateY(-1px);box-shadow:0 4px 8px rgba(12,20,40,0.04)}
-li.item.selected{background:linear-gradient(90deg,#eef2ff,#f8fafc);border-color:#c7d2fe}
-.checkbox{width:22px;height:22px;border-radius:4px;border:1px solid #cbd5e1;display:inline-grid;place-items:center;font-size:14px}
-.checkbox.checked{background:#6366f1;border-color:#6366f1;color:white}
-.label{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px}
-.actions{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap;justify-content:center}
-button{padding:10px 14px;border-radius:8px;border:0;background:#0ea5a4;color:white;cursor:pointer;font-size:14px}
-button.secondary{background:#64748b}
-.add-container{margin-top:12px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
-input#newItem{flex:1;padding:10px;border:1px solid #cbd5e1;border-radius:8px;min-width:150px;font-size:14px}
-pre#out{background:#0b1220;color:#f8fafc;padding:12px;border-radius:8px;margin-top:12px;overflow:auto;max-width:100%}
-#missingPanel{max-width:100%;margin:12px auto 0;background:#fff;border-radius:10px;padding:12px;border:1px solid #e6fffa;display:none;font-size:13px}
-@media(max-width:480px){
-  body{padding:12px}
-  .card{padding:12px}
-  .label{font-size:13px}
-  .checkbox{width:20px;height:20px;font-size:12px}
-  input#newItem{font-size:13px}
-  button{font-size:13px;padding:8px 12px}
+/* CONTENEDOR PRINCIPAL */
+.card{
+  padding:6vw;
+}
+
+/* TÍTULO Y TEXTO */
+h1{
+  text-align:center;
+  font-size:clamp(1.5rem, 5.5vw, 2rem);
+  margin-bottom:3vw;
+}
+
+p.lead{
+  text-align:center;
+  font-size:clamp(1rem,4vw,1.3rem);
+  margin-bottom:4vw;
+  color:#475569;
+}
+
+/* LISTA */
+ul.list{
+  list-style:none;
+  padding:0;
+  margin:0 0 4vw;
+  display:grid;
+  gap:3vw;
+}
+
+/* ITEM */
+li.item{
+  display:flex;
+  align-items:center;
+  gap:4vw;
+  padding:4vw;
+  border-radius:12px;
+  background:#fff;
+  box-shadow:0 4px 10px rgba(12,20,40,0.08);
+  cursor:pointer;
+}
+
+/* CHECK */
+.checkbox{
+  width:7vw;
+  height:7vw;
+  max-width:32px;
+  max-height:32px;
+  border-radius:6px;
+  border:2px solid #6366f1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:clamp(1.2rem, 4vw, 1.5rem);
+}
+
+.checkbox.checked{
+  background:#6366f1;
+  color:#fff;
+}
+
+/* TEXTO */
+.label{
+  flex:1;
+  font-size:clamp(1.2rem, 4.5vw, 1.5rem);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* INPUT Y BOTONES */
+.add-container,
+.actions{
+  display:flex;
+  flex-direction:column;
+  gap:3vw;
+  margin-top:4vw;
+}
+
+input#newItem{
+  padding:4vw;
+  border-radius:12px;
+  border:2px solid #cbd5e1;
+  font-size:clamp(1.2rem,4.5vw,1.5rem);
+}
+
+button{
+  padding:4vw;
+  border-radius:14px;
+  border:0;
+  background:#0ea5a4;
+  color:white;
+  font-size:clamp(1.3rem,5vw,1.6rem);
+  font-weight:600;
+  cursor:pointer;
+}
+
+button.secondary{ background:#64748b; }
+
+button:active{ transform:scale(0.97); }
+
+/* PANEL FALTANTES */
+#missingPanel{
+  margin-top:4vw;
+  padding:4vw;
+  border-radius:12px;
+  background:#fff;
+  box-shadow:0 4px 10px rgba(12,20,40,0.08);
+  font-size:clamp(1.1rem,4vw,1.4rem);
+  display:none;
 }
 </style>
 </head>
 <body>
 
 <div class="card">
-<h1>Contares Lista</h1>
-<p class="lead">Selecciona, agrega y guarda automáticamente.</p>
+  <h1>Contares Lista</h1>
+  <p class="lead">Selecciona, agrega y guarda automáticamente.</p>
 
-<button id="goBack" class="secondary" style="margin-bottom:12px;">⬅ Volver al menú</button>
+  <button id="goBack" class="secondary">⬅ Volver al menú</button>
 
-<ul id="myList" class="list" role="listbox" aria-label="Lista A"></ul>
+  <ul id="myList" class="list" role="listbox" aria-label="Lista A"></ul>
 
-<div class="add-container">
-<input type="text" id="newItem" placeholder="Nuevo elemento...">
-<button id="addItem">Agregar</button>
-</div>
+  <div class="add-container">
+    <input type="text" id="newItem" placeholder="Nuevo elemento...">
+    <button id="addItem">Agregar</button>
+  </div>
 
-<div class="actions">
-<button id="toggleMissing">Mostrar faltantes</button>
-<button id="clearSelections">Borrar selecciones</button>
-<button id="resetList" class="secondary">Resetear lista</button>
-</div>
+  <div class="actions">
+    <button id="toggleMissing">Mostrar faltantes</button>
+    <button id="clearSelections">Borrar selecciones</button>
+    <button id="resetList" class="secondary">Resetear lista</button>
+  </div>
 
-<div id="missingPanel" aria-live="polite"></div>
-<pre id="out" hidden></pre>
+  <div id="missingPanel" aria-live="polite"></div>
 </div>
 
 <script>
@@ -91,40 +174,9 @@ const defaultItems = [
   "Minimesa","Alimentador minimesa","Micro shure","Cable micro shure","Pie micro",
   "Mesa de mezclas","Cables mesa","Pie de mesa","Cables extra","Micro de diadema",
   "Receptor bluetooth","Alimentador receptor blue","Cable receptor blue-mesa"
-].map(label => ({
-  label,
-  value: label.toLowerCase().replace(/\s+/g, '_'),
-  selected: false
-}));
+].map(label => ({ label, value: label.toLowerCase().replace(/\s+/g,'_'), selected:false }));
 
-function loadItems() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultItems));
-      return [...defaultItems];
-    }
-    const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed)) {
-      return parsed.map(item => {
-        if (typeof item === 'string') {
-          return { label: item, value: item.toLowerCase().replace(/\s+/g, '_'), selected: false };
-        }
-        const label = item.label || item.value || 'Elemento';
-        const value = item.value || label.toLowerCase().replace(/\s+/g, '_');
-        const selected = Boolean(item.selected);
-        return { label, value, selected };
-      });
-    }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultItems));
-    return [...defaultItems];
-  } catch {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultItems));
-    return [...defaultItems];
-  }
-}
-
-let items = loadItems();
+let items = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [...defaultItems];
 
 function saveToLocalStorage() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
@@ -135,87 +187,64 @@ function renderList() {
   list.innerHTML = '';
   items.forEach(item => {
     const li = document.createElement('li');
-    li.className = 'item' + (item.selected ? ' selected' : '');
+    li.className = 'item';
     li.tabIndex = 0;
     li.dataset.value = item.value;
-    li.innerHTML = `<span class="checkbox ${item.selected ? 'checked' : ''}">${item.selected ? '✓' : ''}</span><span class="label">${item.label}</span>`;
+    li.innerHTML = `<span class="checkbox ${item.selected?'checked':''}">${item.selected?'✓':''}</span><span class="label">${item.label}</span>`;
+    li.addEventListener('click', () => {
+      item.selected = !item.selected;
+      saveToLocalStorage();
+      renderList();
+    });
     list.appendChild(li);
   });
   updateMissingPanel();
 }
 
-function updateVisual(li, checked) {
-  const box = li.querySelector('.checkbox');
-  li.classList.toggle('selected', checked);
-  box.classList.toggle('checked', checked);
-  box.textContent = checked ? '✓' : '';
-}
-
 function updateMissingPanel() {
-  if (missingPanel.style.display === 'block') {
-    const missing = items.filter(i => !i.selected);
+  if(missingPanel.style.display==='block'){
+    const missing = items.filter(i=>!i.selected);
     missingPanel.innerHTML = missing.length
-      ? '<strong>Faltan por seleccionar:</strong><ul>' + missing.map(m => `<li>${m.label}</li>`).join('') + '</ul>'
+      ? '<strong>Faltan por seleccionar:</strong><ul>'+missing.map(m=>`<li>${m.label}</li>`).join('')+'</ul>'
       : '<strong>Todos los elementos están seleccionados ✅</strong>';
   }
 }
 
-list.addEventListener('click', e => {
-  const li = e.target.closest('li.item');
-  if (!li) return;
-  const currently = li.classList.contains('selected');
-  updateVisual(li, !currently);
-  const item = items.find(i => i.value === li.dataset.value);
-  if (item) item.selected = !currently;
-  saveToLocalStorage();
+toggleMissingBtn.addEventListener('click',()=>{
+  missingPanel.style.display=(missingPanel.style.display==='block')?'none':'block';
+  if(missingPanel.style.display==='block') updateMissingPanel();
 });
 
-list.addEventListener('keydown', e => {
-  const li = e.target.closest('li.item');
-  if (!li) return;
-  if (e.key === 'Enter' || e.key === ' ') {
-    e.preventDefault();
-    li.click();
-  }
-});
-
-toggleMissingBtn.addEventListener('click', () => {
-  missingPanel.style.display = (missingPanel.style.display === 'block') ? 'none' : 'block';
-  if (missingPanel.style.display === 'block') updateMissingPanel();
-});
-
-clearBtn.addEventListener('click', () => {
-  items.forEach(i => i.selected = false);
+clearBtn.addEventListener('click',()=>{
+  items.forEach(i=>i.selected=false);
   saveToLocalStorage();
   renderList();
 });
 
-resetBtn.addEventListener('click', () => {
-  localStorage.removeItem(STORAGE_KEY);
-  items = [...defaultItems];
+resetBtn.addEventListener('click',()=>{
+  items=[...defaultItems];
   saveToLocalStorage();
   renderList();
 });
 
-addBtn.addEventListener('click', () => {
-  const value = newItemInput.value.trim();
-  if (!value) return;
-  const newItem = { label: value, value: value.toLowerCase().replace(/\s+/g, '_'), selected: false };
-  items.push(newItem);
+addBtn.addEventListener('click',()=>{
+  const value=newItemInput.value.trim();
+  if(!value) return;
+  items.push({label:value,value:value.toLowerCase().replace(/\s+/g,'_'),selected:false});
   renderList();
   saveToLocalStorage();
-  newItemInput.value = '';
+  newItemInput.value='';
   newItemInput.focus();
 });
 
-newItemInput.addEventListener('keydown', e => { if (e.key === 'Enter') addBtn.click(); });
+newItemInput.addEventListener('keydown', e=>{if(e.key==='Enter') addBtn.click();});
 
 renderList();
-  // PASO 4: Registrar Service Worker
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("service-worker.js")
-    .then(() => console.log("Service Worker registrado"))
-    .catch(err => console.log("Error al registrar Service Worker:", err));
+
+// Service Worker
+if("serviceWorker"in navigator){
+  navigator.serviceWorker.register("service-worker.js").then(()=>console.log("Service Worker registrado"))
+  .catch(err=>console.log("Error al registrar Service Worker:",err));
 }
 </script>
 </body>
