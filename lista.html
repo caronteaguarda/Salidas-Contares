@@ -6,61 +6,68 @@
 <title>Lista de compra</title>
 
 <style>
-*{ box-sizing:border-box; }
-
-body{
-  margin:0;
-  padding:0;
+:root{
   font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
-  background:#f5f7fb;
-  color:#0b1220;
 }
 
-/* CONTENEDOR PRINCIPAL */
+body{
+  background:#f5f7fb;
+  color:#0b1220;
+  padding:32px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  margin:0;
+}
+
+/* TARJETA */
 .card{
-  padding:6vw;
+  background:#fff;
+  padding:24px;
+  border-radius:14px;
+  box-shadow:0 8px 24px rgba(12,20,40,0.08);
+  max-width:420px;
+  width:100%;
 }
 
 /* TÍTULO */
 h1{
+  margin:0 0 16px;
   text-align:center;
-  font-size:clamp(1.5rem, 5.5vw, 2rem);
-  margin-bottom:4vw;
+  font-size:22px;
 }
 
 /* LISTA */
 ul.list{
   list-style:none;
   padding:0;
-  margin:0 0 4vw;
+  margin:16px 0;
   display:grid;
-  gap:3vw;
+  gap:12px;
 }
 
-/* ITEM */
 li.item{
   display:flex;
   align-items:center;
-  gap:4vw;
-  padding:4vw;
+  gap:12px;
+  padding:14px;
   border-radius:12px;
-  background:#fff;
-  box-shadow:0 4px 10px rgba(12,20,40,0.08);
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
   cursor:pointer;
 }
 
 /* CHECK */
 .checkbox{
-  width:7vw;
-  height:7vw;
-  max-width:32px;
-  max-height:32px;
+  width:26px;
+  height:26px;
   border-radius:6px;
   border:2px solid #0ea5a4;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:clamp(1.2rem, 4vw, 1.5rem);
+  font-size:16px;
 }
 
 .checkbox.checked{
@@ -71,52 +78,41 @@ li.item{
 /* TEXTO */
 .label{
   flex:1;
-  font-size:clamp(1.2rem, 4.5vw, 1.5rem);
-}
-
-/* ZONAS DE BOTONES */
-.actions,
-.add-container{
-  display:flex;
-  flex-direction:column;
-  gap:3vw;
-  margin-top:4vw;
+  font-size:16px;
 }
 
 /* INPUT */
 input{
-  padding:4vw;
-  border-radius:12px;
-  border:2px solid #cbd5e1;
-  font-size:clamp(1.2rem, 4.5vw, 1.5rem);
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #d1d5db;
+  font-size:16px;
 }
 
 /* BOTONES */
 button{
-  padding:4vw;
-  border-radius:14px;
+  width:100%;
+  padding:14px;
+  border-radius:10px;
   border:0;
   background:#0ea5a4;
   color:white;
-  font-size:clamp(1.3rem, 5vw, 1.6rem);
-  font-weight:600;
+  font-size:16px;
   cursor:pointer;
+  margin-top:10px;
 }
 
 button.secondary{ background:#64748b; }
+button:hover{ opacity:0.9; }
 
-button:active{
-  transform:scale(0.97);
-}
-
-/* PANEL FALTANTES */
+/* PANELES */
 #missingPanel{
-  margin-top:4vw;
-  padding:4vw;
+  margin-top:16px;
+  padding:14px;
   border-radius:12px;
-  background:#fff;
-  box-shadow:0 4px 10px rgba(12,20,40,0.08);
-  font-size:clamp(1.1rem, 4vw, 1.4rem);
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
   display:none;
 }
 </style>
@@ -127,20 +123,16 @@ button:active{
 <div class="card">
   <h1>Lista de compra</h1>
 
-  <button id="goBack" class="secondary">⬅ Volver al menú</button>
+  <button class="secondary" onclick="location.href='index.html'">⬅ Volver al menú</button>
 
   <ul id="myList" class="list"></ul>
 
-  <div class="add-container">
-    <input type="text" id="newItem" placeholder="Nuevo producto…">
-    <button id="addItem">Agregar</button>
-  </div>
+  <input type="text" id="newItem" placeholder="Nuevo producto…">
+  <button id="addItem">Agregar</button>
 
-  <div class="actions">
-    <button id="toggleMissing">Mostrar faltantes</button>
-    <button id="clearSelections">Borrar selecciones</button>
-    <button id="resetList" class="secondary">Resetear lista</button>
-  </div>
+  <button id="toggleMissing">Mostrar faltantes</button>
+  <button id="clearSelections">Borrar selecciones</button>
+  <button id="resetList" class="secondary">Resetear lista</button>
 
   <div id="missingPanel"></div>
 </div>
@@ -151,7 +143,6 @@ let items = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
 items = items.map(i => ({
   label: i.label || i.value || "Elemento",
-  value: i.value || (i.label || "").toLowerCase().replace(/\s+/g,'_'),
   selected: !!i.selected
 }));
 
@@ -167,9 +158,6 @@ const clearBtn=document.getElementById("clearSelections");
 const resetBtn=document.getElementById("resetList");
 const toggleMissingBtn=document.getElementById("toggleMissing");
 const missingPanel=document.getElementById("missingPanel");
-const goBack=document.getElementById("goBack");
-
-goBack.onclick = () => location.href="index.html";
 
 function render(){
  list.innerHTML="";
@@ -200,28 +188,25 @@ function updateMissingPanel(){
   }
 }
 
-toggleMissingBtn.onclick = () => {
+toggleMissingBtn.onclick=()=>{
   missingPanel.style.display =
-    (missingPanel.style.display === "block") ? "none" : "block";
-  if (missingPanel.style.display === "block") updateMissingPanel();
+    missingPanel.style.display==="block"?"none":"block";
+  updateMissingPanel();
 };
 
 clearBtn.onclick=()=>{items.forEach(i=>i.selected=false);save();render();};
 
 resetBtn.onclick=()=>{
   localStorage.removeItem(STORAGE_KEY);
-  items=[];render();updateMissingPanel();
+  items=[];render();
 };
 
 addBtn.onclick=()=>{
  if(!input.value.trim())return;
- items.push({
-   label:input.value.trim(),
-   value:input.value.trim().toLowerCase().replace(/\s+/g,'_'),
-   selected:false
- });
+ items.push({ label:input.value.trim(), selected:false });
  input.value=""; save(); render();
 };
+
 input.onkeydown=e=>{if(e.key==="Enter")addBtn.click();};
 
 render();
@@ -229,6 +214,7 @@ render();
 
 </body>
 </html>
+
 
 
 
