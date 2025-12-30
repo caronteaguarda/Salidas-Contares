@@ -4,76 +4,73 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Tensión</title>
+
 <style>
-*{box-sizing:border-box;}
-body{
-  margin:0;
-  padding:0;
+:root{
   font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
+}
+
+body{
   background:#f5f7fb;
+  padding:32px;
   display:flex;
   justify-content:center;
   align-items:center;
-  min-height:100vh;
+  height:100vh;
 }
 
 .card{
   background:#fff;
-  padding:6vw;
+  padding:24px;
   border-radius:14px;
   box-shadow:0 8px 24px rgba(12,20,40,0.08);
   max-width:360px;
-  width:90%;
+  width:100%;
 }
 
-/* TITULO */
 h1{
   margin-top:0;
   text-align:center;
-  font-size:clamp(1.6rem,6vw,2rem);
 }
 
-/* LABELS */
 label{
   display:block;
-  margin-top:4vw;
+  margin-top:16px;
   font-weight:600;
-  font-size:clamp(1.2rem,4vw,1.4rem);
 }
 
-/* INPUTS Y SELECT */
-input, select{
+select, input{
   width:100%;
-  padding:4vw;
-  margin-top:2vw;
-  border-radius:10px;
+  padding:12px;
+  margin-top:6px;
+  border-radius:8px;
   border:1px solid #d1d5db;
-  font-size:clamp(1.2rem,4vw,1.4rem);
+  font-size:16px;
 }
 
-/* BOTONES */
 button{
-  margin-top:4vw;
+  margin-top:20px;
   width:100%;
-  padding:4vw;
+  padding:14px;
   border:0;
-  border-radius:12px;
+  border-radius:10px;
   background:#0ea5a4;
   color:white;
-  font-size:clamp(1.3rem,4.5vw,1.6rem);
-  font-weight:600;
+  font-size:16px;
   cursor:pointer;
-  transition:transform 0.1s ease;
 }
 
-button:hover{ opacity:0.9; }
-button:active{ transform:scale(0.97); }
+button:hover{
+  opacity:0.9;
+}
 
-button.back{
+.back{
+  margin-top:10px;
   background:#64748b;
 }
 </style>
 </head>
+
 <body>
 
 <div class="card">
@@ -138,18 +135,15 @@ function guardarDatos(){
 }
 
 zonaSelect.addEventListener("change", mostrarDatos);
-mostrarDatos();
 
-// Service Worker
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("service-worker.js")
-    .then(() => console.log("Service Worker registrado"))
-    .catch(err => console.log("Error al registrar Service Worker:", err));
-}
+// Mostrar datos iniciales
+mostrarDatos();
 </script>
 
 </body>
 </html>
+
+
 
 
 
