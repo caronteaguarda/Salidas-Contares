@@ -4,7 +4,7 @@
 
 :root{
   font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
-  font-size:18px; /* 🔴 CAMBIA AQUÍ si lo quieres más grande */
+  font-size:22px; /* 🔴 CAMBIA AQUÍ si lo quieres más grande */
 }
 
 body{
@@ -129,5 +129,6 @@ li.item{
   border:1px solid #e5e7eb;
   display:none;
 }
+
 
 
