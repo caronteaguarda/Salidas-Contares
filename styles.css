@@ -52,12 +52,12 @@ input, select{
 /* BOTONES */
 button{
   width:100%;
-  padding:20px;      /* ⬅ botón más alto */
+  padding:30px;      /* ⬅ botón más alto */
   border-radius:14px;
   border:0;
   background:#0ea5a4;
   color:white;
-  font-size:22px;    /* ⬅ texto más grande */
+  font-size:30px;    /* ⬅ texto más grande */
   font-weight:600;
   cursor:pointer;
   margin-top:12px;
@@ -129,4 +129,5 @@ li.item{
   border:1px solid #e5e7eb;
   display:none;
 }
+
 
